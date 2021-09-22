@@ -6,6 +6,8 @@ library(raster)
 library(rgdal)
 library(RColorBrewer)
 
+
+
 #Setting the color palette for spplot
 my.palette <- brewer.pal(n = 8, name = "YlGn")
 
@@ -14,17 +16,24 @@ my.palette <- brewer.pal(n = 8, name = "YlGn")
 #Plotting the graphs for Aberdeen Country Park
 #Importing the near-infrared (NIR) band of the drone image of Aberdeen Country Park
 AberdeenNIR = raster("Aberdeen.jpg", band = 1)
+
 #Importing the red (r) band of the drone image of Aberdeen Country Park
 Aberdeenr = raster("Aberdeen.jpg", band = 2)
+
 #Calculating the NDVI value of each pixel in the drone image
 Aberdeenndvi = (AberdeenNIR-Aberdeenr)/(AberdeenNIR+Aberdeenr)
+
 #Filtering out the rock, sand and water
 Aberdeenndvi[Aberdeenndvi < 0.2] = NA
+
 #Plotting the NDVI graphs
 plot(Aberdeenndvi, main = 'Aberdeen')
 spplot(Aberdeenndvi, main = 'Aberdeen', col.regions = my.palette, cuts = 7)
+
 #Plotting the NDVI frequency graph of the drone image
 hist(Aberdeenndvi, main = 'Aberdeen')
+
+
 
 #Plotting the graphs for Tai Tam Country Park
 TaiTamNIR = raster("Tai Tam.jpg", band = 1)
@@ -35,6 +44,8 @@ plot(TaiTamndvi, main = 'Tai Tam')
 spplot(TaiTamndvi, main = 'Tai Tam', col.regions = my.palette, cuts = 7)
 hist(TaiTamndvi, main = 'Tai Tam')
 
+
+
 #Plotting the graphs for Pok Fu Lam Country Park
 PokFuLamNIR = raster("Pok Fu Lam.jpg", band = 1)
 PokFuLamr = raster("Pok Fu Lam.jpg", band = 2)
@@ -43,6 +54,8 @@ PokFuLamndvi[PokFuLamndvi < 0.2] = NA
 plot(PokFuLamndvi, main = 'Pok Fu Lam')
 spplot(PokFuLamndvi, main = 'Pok Fu Lam', col.regions = my.palette, cuts = 7)
 hist(PokFuLamndvi, main = 'Pok Fu Lam')
+
+
 
 #Plotting the graphs for Shek O Country Park
 ShekONIR = raster("Shek O.jpg", band = 1)
@@ -53,6 +66,8 @@ plot(ShekOndvi, main = 'Shek O')
 spplot(ShekOndvi, main = 'Shek O', col.regions = my.palette, cuts = 7)
 hist(ShekOndvi, main = 'Shek O')
 
+
+
 #Plotting the graphs for Lung Fu Shan Country Park
 LungFuShanNIR = raster("Lung Fu Shan.jpg", band = 1)
 LungFuShanr = raster("Lung Fu Shan.jpg", band = 2)
@@ -61,6 +76,8 @@ LungFuShanndvi[LungFuShanndvi < 0.2] = NA
 plot(LungFuShanndvi, main = 'Lung Fu Shan')
 spplot(LungFuShanndvi, main = 'Lung Fu Shan', col.regions = my.palette, cuts = 7)
 hist(LungFuShanndvi, main = 'Lung Fu Shan')
+
+
 
 #Plotting the graphs for Clear Water Bay Country Park
 ClearWaterBayNIR = raster("Clear Water Bay.jpg", band = 1)
@@ -71,6 +88,8 @@ plot(ClearWaterBayndvi, main = 'Clear Water Bay')
 spplot(ClearWaterBayndvi, main = 'Clear Water Bay', col.regions = my.palette, cuts = 7)
 hist(ClearWaterBayndvi, main = 'Clear Water Bay')
 
+
+
 #Plotting the graphs for Kam Shan Country Park
 KamShanNIR = raster("Kam Shan.jpg", band = 1)
 KamShanr = raster("Kam Shan.jpg", band = 2)
@@ -79,6 +98,8 @@ KamShanndvi[KamShanndvi < 0.2] = NA
 plot(KamShanndvi, main = 'Kam Shan')
 spplot(KamShanndvi, main = 'Kam Shan', col.regions = my.palette, cuts = 7)
 hist(KamShanndvi, main = 'Kam Shan')
+
+
 
 #Plotting the graphs for Lion Rock Country Park
 LionRockNIR = raster("Lion Rock.jpg", band = 1)
@@ -89,6 +110,8 @@ plot(LionRockndvi, main = 'Lion Rock')
 spplot(LionRockndvi, main = 'Lion Rock', col.regions = my.palette, cuts = 7)
 hist(LionRockndvi, main = 'Lion Rock')
 
+
+
 #Plotting the graphs for Pat Sin Leng Country Park
 PatSinLengNIR = raster("Pat Sin Leng.jpg", band = 1)
 PatSinLengr = raster("Pat Sin Leng.jpg", band = 2)
@@ -98,6 +121,8 @@ plot(PatSinLengndvi, main = 'Pat Sin Leng')
 spplot(PatSinLengndvi, main = 'Pat Sin Leng', col.regions = my.palette, cuts = 7)
 hist(PatSinLengndvi, main = 'Pat Sin Leng')
 
+
+
 #Plotting the graphs for Plover Cove Country Park
 PloverCoveNIR = raster("Plover Cove.jpg", band = 1)
 PloverCover = raster("Plover Cove.jpg", band = 2)
@@ -106,6 +131,8 @@ PloverCovendvi[PloverCovendvi < 0.2] = NA
 plot(PloverCovendvi, main = 'Plover Cove')
 spplot(PloverCovendvi, main = 'Plover Cove', col.regions = my.palette, cuts = 7)
 hist(PloverCovendvi, main = 'Plover Cove')
+
+
 
 #Comparing the median NDVI of different country parks
 
@@ -121,10 +148,14 @@ LionRockmedian<-summary(LionRockndvi)[3]
 PatSinLengmedian<-summary(PatSinLengndvi)[3]
 PloverCovemedian<-summary(PloverCovendvi)[3]
 
+
+
 #Importing the median NDVI of different country parks into an array variable
 medians <- c(Aberdeenmedian, TaiTammedian, PokFuLammedian, ShekOmedian, LungFuShanmedian, ClearWaterBaymedian, KamShanmedian, LionRockmedian, PatSinLengmedian, PloverCovemedian)
 #Assigning the list of country park names to be put below each bar
 countryParks <- c("Aberdeen", "Tai Tam", "Pok Fu Lam", "Shek O", "Lung Fu Shan", "CWB", "Kam Shan", "Lion Rock", "Pat Sin Leng", "PCove")
+
+
 
 #Plotting the barchart of the median NDVI value of different country parks
 barplot(medians, names.arg= countryParks, main = 'medians')
