@@ -133,6 +133,36 @@ spplot(PloverCovendvi, main = 'Plover Cove', col.regions = my.palette, cuts = 7)
 hist(PloverCovendvi, main = 'Plover Cove')
 
 
+#Plotting the graphs for Tai Lam Chung Country Park
+TaiLamChungNIR = raster("Tai Lam Chung.jpg", band = 1)
+TaiLamChungr = raster("Tai Lam Chung.jpg", band = 2)
+TaiLamChungndvi = (TaiLamChungNIR-TaiLamChungr)/(TaiLamChungNIR+TaiLamChungr)
+TaiLamChungndvi[TaiLamChungndvi < 0.2] = NA
+plot(TaiLamChungndvi, main = 'Tai Lam Chung')
+spplot(TaiLamChungndvi, main = 'Tai Lam Chung', col.regions = my.palette, cuts = 7)
+hist(TaiLamChungndvi, main = 'Tai Lam Chung')
+
+
+#Plotting the graphs for Lantau Peak Country Park
+LantauPeakNIR = raster("Lantau Peak.jpg", band = 1)
+LantauPeakr = raster("Lantau Peak.jpg", band = 2)
+LantauPeakndvi = (LantauPeakNIR-LantauPeakr)/(LantauPeakNIR+LantauPeakr)
+LantauPeakndvi[LantauPeakndvi < 0.2] = NA
+plot(LantauPeakndvi, main = 'Lantau Peak')
+spplot(LantauPeakndvi, main = 'Lantau Peak', col.regions = my.palette, cuts = 7)
+hist(LantauPeakndvi, main = 'Lantau Peak')
+
+
+#Plotting the graphs for Sunset Peak Country Park
+SunsetPeakNIR = raster("Sunset Peak.jpg", band = 1)
+SunsetPeakr = raster("Sunset Peak.jpg", band = 2)
+SunsetPeakndvi = (SunsetPeakNIR-SunsetPeakr)/(SunsetPeakNIR+SunsetPeakr)
+SunsetPeakndvi[SunsetPeakndvi < 0.2] = NA
+plot(SunsetPeakndvi, main = 'Sunset Peak')
+spplot(SunsetPeakndvi, main = 'Sunset Peak', col.regions = my.palette, cuts = 7)
+hist(SunsetPeakndvi, main = 'Sunset Peak')
+
+
 
 #Comparing the median NDVI of different country parks
 
@@ -147,15 +177,17 @@ KamShanmedian<-summary(KamShanndvi)[3]
 LionRockmedian<-summary(LionRockndvi)[3]
 PatSinLengmedian<-summary(PatSinLengndvi)[3]
 PloverCovemedian<-summary(PloverCovendvi)[3]
+TaiLamChungmedian<-summary(TaiLamChungndvi)[3]
+LantauPeakmedian<-summary(LantauPeakndvi)[3]
+SunsetPeakmedian<-summary(SunsetPeakndvi)[3]
 
 
 
 #Importing the median NDVI of different country parks into an array variable
-medians <- c(Aberdeenmedian, TaiTammedian, PokFuLammedian, ShekOmedian, LungFuShanmedian, ClearWaterBaymedian, KamShanmedian, LionRockmedian, PatSinLengmedian, PloverCovemedian)
+medians <- c(Aberdeenmedian, TaiTammedian, PokFuLammedian, ShekOmedian, LungFuShanmedian, ClearWaterBaymedian, KamShanmedian, LionRockmedian, PatSinLengmedian, PloverCovemedian, LantauPeakmedian, SunsetPeakmedian)
 #Assigning the list of country park names to be put below each bar
-countryParks <- c("Aberdeen", "Tai Tam", "Pok Fu Lam", "Shek O", "Lung Fu Shan", "CWB", "Kam Shan", "Lion Rock", "Pat Sin Leng", "PCove")
-
+countryParks <- c("Aberdeen", "Tai Tam", "Pok Fu Lam", "Shek O", "Lung Fu Shan", "Clear Water Bay", "Kam Shan", "Lion Rock", "Pat Sin Leng", "PCove", "Lantau Peak", "Sunset Peak")
 
 
 #Plotting the barchart of the median NDVI value of different country parks
-barplot(medians, names.arg= countryParks, main = 'medians')
+barplot(medians, horiz=T, las=1 ,names.arg= countryParks, main = 'medians')
