@@ -186,7 +186,7 @@ SunsetPeakmedian<-summary(SunsetPeakndvi)[3]
 #Importing the median NDVI of different country parks into an array variable
 medians <- c(Aberdeenmedian, TaiTammedian, PokFuLammedian, ShekOmedian, LungFuShanmedian, ClearWaterBaymedian, KamShanmedian, LionRockmedian, PatSinLengmedian, PloverCovemedian, LantauPeakmedian, SunsetPeakmedian)
 #Assigning the list of country park names to be put below each bar
-countryParks <- c("Aberdeen", "Tai Tam", "Pok Fu Lam", "Shek O", "Lung Fu Shan", "Clear Water Bay", "Kam Shan", "Lion Rock", "Pat Sin Leng", "PCove", "Lantau Peak", "Sunset Peak")
+countryParks <- c("Aberdeen", "Tai Tam", "Pok Fu Lam", "Shek O", "Lung Fu Shan", "Clear Water Bay", "Kam Shan", "Lion Rock", "Pat Sin Leng", "Plover Cove", "Lantau Peak", "Sunset Peak")
 
 
 #Plotting the barchart of the median NDVI value of different country parks
