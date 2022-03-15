@@ -36,29 +36,14 @@ ndvianalysis <- function(droneimage, countrypark){
   return(summary(ndvi)[3])
 }
 
+medians = vector(mode = "numeric", length = 7)
+parknames = c("Aberdeen","Tai Tam", "Pok Fu Lam", "Shek O", "Lung Fu Shan", "Clear Water Bay", "Kam Shan", "Lion Rock", "Pat Sin Leng", "Plover Cove", "Tai Lam Chung", "Lantau Peak", "Sunset Peak")
+filename = paste(parknames, ".jpg", sep = "")
 
-#Importing the median NDVI of different country parks into an array variable
-Aberdeenmedian<-ndvianalysis("Aberdeen.jpg", "Aberdeen")
-TaiTammedian<-ndvianalysis("Tai Tam.jpg", "Tai Tam")
-PokFuLammedian<-ndvianalysis("Pok Fu Lam.jpg", "Pok Fu Lam")
-ShekOmedian<-ndvianalysis("Shek O.jpg", "Shek O")
-LungFuShanmedian<-ndvianalysis("Lung Fu Shan.jpg", "Lung Fu Shan")
-ClearWaterBaymedian<-ndvianalysis("Clear Water Bay.jpg", "Clear Water Bay")
-KamShanmedian<-ndvianalysis("Kam Shan.jpg", "Kam Shan")
-LionRockmedian<-ndvianalysis("Lion Rock.jpg", "Lion Rock")
-PatSinLengmedian<-ndvianalysis("Pat Sin Leng.jpg", "Pat Sin Leng")
-PloverCovemedian<-ndvianalysis("Plover Cove.jpg", "Plover Cove")
-TaiLamChungmedian<-ndvianalysis("Tai Lam Chung.jpg", "Tai Lam Chung")
-LantauPeakmedian<-ndvianalysis("Lantau Peak.jpg", "Lantau Peak")
-SunsetPeakmedian<-ndvianalysis("Sunset Peak.jpg", "Sunset Peak")
-
-
-
-#Importing the median NDVI of different country parks into an array variable
-medians <- c(Aberdeenmedian, TaiTammedian, PokFuLammedian, ShekOmedian, LungFuShanmedian, ClearWaterBaymedian, KamShanmedian, LionRockmedian, PatSinLengmedian, PloverCovemedian, LantauPeakmedian, SunsetPeakmedian)
-#Assigning the list of country park names to be put below each bar
-countryParks <- c("Aberdeen", "Tai Tam", "Pok Fu Lam", "Shek O", "Lung Fu Shan", "Clear Water Bay", "Kam Shan", "Lion Rock", "Pat Sin Leng", "Plover Cove", "Lantau Peak", "Sunset Peak")
-
+#Calculating the median NDVI values of different countryparks
+for (x in 1:13) {
+  medians[x] = ndvianalysis(filename[x], parknames[x])
+}
 
 #Plotting the barchart of the median NDVI value of different country parks
-barplot(medians, horiz=T, las=1 ,names.arg= countryParks, main = 'medians')
+barplot(medians, horiz=T, las=1 ,names.arg= parknames, main = 'medians')
