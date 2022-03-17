@@ -12,25 +12,25 @@ my.palette <- brewer.pal(n = 8, name = "YlGn")
 #Plotting the NDVI graphs with the same program for different country parks
 ndvianalysis <- function(droneimage, countrypark){
   
-#Importing the near-infrared (NIR) band of the drone image of the country park
+  #Importing the near-infrared (NIR) band of the drone image of the country park
   NIR = raster(droneimage, band = 1)
 
-#Importing the red (r) band of the drone image of country park
+  #Importing the red (r) band of the drone image of country park
   red = raster(droneimage, band = 2)
 
-#Calculating the NDVI value of each pixel in the drone image
+  #Calculating the NDVI value of each pixel in the drone image
   ndvi = (NIR-red)/(NIR+red)
 
-#Filtering out the rock, sand and water
+  #Filtering out the rock, sand and water
   ndvi[ndvi < 0.2] = NA
   
-#Plotting the NDVI frequency graph
+  #Plotting the NDVI frequency graph
   hist(ndvi, main= countrypark)
 
-#Plotting the NDVI graphs
+  #Plotting the NDVI graphs
   plot(ndvi, main = countrypark)
   
-#Plotting the NDVI graphs(spplot)  
+  #Plotting the NDVI graphs(spplot)  
   print(spplot(ndvi, main = countrypark, col.regions = my.palette, cuts = 7))
   
   return(summary(ndvi)[3])
@@ -44,7 +44,7 @@ parknames = c("Aberdeen","Tai Tam", "Pok Fu Lam", "Shek O", "Lung Fu Shan", "Cle
 filename = paste(parknames, ".jpg", sep = "")
 
 #Calculating the median NDVI values of different countryparks
-for (x in 1:13) {
+for (x in 1:13){
   medians[x] = ndvianalysis(filename[x], parknames[x])
 }
 
