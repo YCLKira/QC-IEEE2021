@@ -6,7 +6,7 @@ library(raster)
 library(rgdal)
 library(RColorBrewer)
 
-#Setting the color palette for spplot
+#Setting the color palette (Yellow-Green) for spplot
 my.palette <- brewer.pal(n = 8, name = "YlGn")
 
 #Plotting the NDVI graphs with the same program for different country parks
@@ -36,7 +36,10 @@ ndvianalysis <- function(droneimage, countrypark){
   return(summary(ndvi)[3])
 }
 
+#Setting an empty vector for storing median NDVI values later
 medians = vector(mode = "numeric", length = 7)
+
+#Setting vectors for the park names and the file names to be used for NDVI calculation
 parknames = c("Aberdeen","Tai Tam", "Pok Fu Lam", "Shek O", "Lung Fu Shan", "Clear Water Bay", "Kam Shan", "Lion Rock", "Pat Sin Leng", "Plover Cove", "Tai Lam Chung", "Lantau Peak", "Sunset Peak")
 filename = paste(parknames, ".jpg", sep = "")
 
