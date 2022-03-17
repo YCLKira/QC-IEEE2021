@@ -10,7 +10,7 @@ library(RColorBrewer)
 my.palette <- brewer.pal(n = 8, name = "YlGn")
 
 #Plotting the NDVI graphs with the same program for different country parks
-ndvianalysis <- function(droneimage, countrypark) {
+ndvianalysis <- function(droneimage, countrypark){
   
   #Importing the near-infrared (NIR) band of the drone image of the country park
   NIR = raster(droneimage, band = 1)
