@@ -2,10 +2,14 @@
 
 # Installing R and RStudio
 R and RStudio can be downloaded at these links
-R : https://cran.r-project.org/
-RStudio : https://www.rstudio.com/products/rstudio/download/
+
+R: https://cran.r-project.org/
+
+RStudio: https://www.rstudio.com/products/rstudio/download/
+
 
 # How to use program:
+
 1. Load the program in RStudio
 2. Download the packages by entering the following commands in console (Bottom left tab of Rstudio):
 install.packages("raster")
