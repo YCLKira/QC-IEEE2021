@@ -1,5 +1,5 @@
 #Setting the working directory
-setwd(".\\Photos")
+setwd(".\\Photos\\Cropped")
 
 #Import the required packages
 library(raster)
@@ -14,19 +14,19 @@ ndvianalysis <- function(droneimage, countrypark){
   
   #Importing the near-infrared (NIR) band of the drone image of the country park
   NIR = raster(droneimage, band = 1)
-
+  
   #Importing the red (r) band of the drone image of country park
   red = raster(droneimage, band = 2)
-
+  
   #Calculating the NDVI value of each pixel in the drone image
   ndvi = (NIR-red)/(NIR+red)
-
+  
   #Filtering out the rock, sand and water
   ndvi[ndvi < 0.2] = NA
   
   #Plotting the NDVI frequency graph
   hist(ndvi, main= countrypark)
-
+  
   #Plotting the NDVI graphs
   plot(ndvi, main = countrypark)
   
@@ -41,12 +41,14 @@ medians = vector(mode = "numeric", length = 7)
 
 #Setting vectors for the park names and the file names to be used for NDVI calculation
 parknames = c("Aberdeen","Tai Tam", "Pok Fu Lam", "Shek O", "Lung Fu Shan", "Clear Water Bay", "Kam Shan", "Lion Rock", "Pat Sin Leng", "Plover Cove", "Tai Lam Chung", "Lantau Peak", "Sunset Peak")
-filename = paste(parknames, ".jpg", sep = "")
+filenames = paste(parknames, ".jpg", sep = "")
 
-#Calculating the median NDVI values of different countryparks
+
+#Calculating the median NDVI values of different country parks
 for (x in 1:13){
-  medians[x] = ndvianalysis(filename[x], parknames[x])
+  medians[x] = ndvianalysis(filenames[x], parknames[x])
 }
 
 #Plotting the barchart of the median NDVI value of different country parks
 barplot(medians, horiz=T, las=1 ,names.arg= parknames, main = 'medians')
+
