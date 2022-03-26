@@ -4,10 +4,15 @@ setwd(".\\Photos")
 #Importing the library that is needed for  the image cropping
 library(EBImage)
 
-#Setting the file names and directory names
-parknames = c("Aberdeen","Tai Tam", "Pok Fu Lam", "Shek O", "Lung Fu Shan", "Clear Water Bay", "Kam Shan", "Lion Rock", "Pat Sin Leng", "Plover Cove", "Tai Lam Chung", "Lantau Peak", "Sunset Peak")
-filenames = paste(parknames, ".jpg", sep = "")
+#The file names
+filenames = c("Aberdeen.jpg","Tai Tam.jpg", "Pok Fu Lam.jpg",
+              "Shek O.jpg", "Lung Fu Shan.jpg", "Clear Water Bay.jpg",
+              "Kam Shan.jpg", "Lion Rock.jpg", "Pat Sin Leng.jpg",
+              "Plover Cove.jpg", "Tai Lam Chung.jpg", "Lantau Peak.jpg",
+              "Sunset Peak.jpg")
+#The path and file name for the uncropped images
 pathnames = paste(".\\Images\\", filenames, sep = "")
+#The path and file name for the cropped images
 newpath = paste(".\\Cropped\\", filenames, sep = "")
 
 #Cropping and exporting the images
