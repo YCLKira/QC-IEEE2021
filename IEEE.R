@@ -24,14 +24,27 @@ ndvianalysis <- function(droneimage, countrypark){
   #Filtering out the rock, sand and water
   ndvi[ndvi < 0.2] = NA
   
+  setwd(paste("..\\..\\Bars and Graphs\\", countrypark, sep = ""))
+  
   #Plotting the NDVI frequency graph
+  jpeg(paste(countrypark, "Freq.jpg", sep = ""),
+       width = 960, height = 640, units = "px")
   hist(ndvi, main= countrypark)
+  dev.off()
   
   #Plotting the NDVI graphs
-  plot(ndvi, main = countrypark)
+  jpeg(paste(countrypark, "NDVIplot.jpg", sep = ""),
+       width = 960, height = 640, units = "px")
+  plot(ndvi, main = countrypark, xlim = c(0,3301), ylim = c(0,2171))
+  dev.off()
   
-  #Plotting the NDVI graphs(spplot)  
+  #Plotting the NDVI graphs(spplot)
+  jpeg(paste(countrypark, "NDVISpplot.jpg", sep = ""),
+       width = 960, height = 640, units = "px")
   print(spplot(ndvi, main = countrypark, col.regions = my.palette, cuts = 7))
+  dev.off()
+  
+  setwd("..\\..\\Photos\\Cropped")
   
   return(summary(ndvi)[3])
 }
@@ -39,8 +52,13 @@ ndvianalysis <- function(droneimage, countrypark){
 #Setting an empty vector for storing median NDVI values later
 medians = vector(mode = "numeric", length = 7)
 
-#Setting vectors for the park names and the file names to be used for NDVI calculation
-parknames = c("Aberdeen","Tai Tam", "Pok Fu Lam", "Shek O", "Lung Fu Shan", "Clear Water Bay", "Kam Shan", "Lion Rock", "Pat Sin Leng", "Plover Cove", "Tai Lam Chung", "Lantau Peak", "Sunset Peak")
+#Setting vectors for the park names and the file names to be used
+#for NDVI calculation
+parknames = c("Aberdeen","Tai Tam", "Pok Fu Lam",
+              "Shek O", "Lung Fu Shan", "Clear Water Bay",
+              "Kam Shan", "Lion Rock", "Pat Sin Leng",
+              "Plover Cove", "Tai Lam Chung", "Lantau Peak",
+              "Sunset Peak")
 filenames = paste(parknames, ".jpg", sep = "")
 
 
@@ -49,6 +67,15 @@ for (x in 1:13){
   medians[x] = ndvianalysis(filenames[x], parknames[x])
 }
 
-#Plotting the barchart of the median NDVI value of different country parks
-barplot(medians, horiz=T, las=1 ,names.arg= parknames, main = 'medians')
-
+#Plotting the bar chart of the median NDVI value of different country parks
+setwd("..\\..\\Bars and Graphs")
+jpeg("Medianplot.jpg", width = 960, height = 640, units = "px")
+par(mar = c(5, 8, 4, 2))
+bp = barplot(medians,
+             horiz = T,
+             las = 1, 
+             xlim = c(0,0.6),
+             names.arg = parknames,
+             main = 'medians')
+text(x = medians + 0.015, y = bp, labels = round(medians,3))
+dev.off()
