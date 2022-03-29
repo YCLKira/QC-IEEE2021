@@ -6,10 +6,11 @@ library(raster)
 library(rgdal)
 library(RColorBrewer)
 
+
 #Setting the color palette (Yellow-Green) for spplot
 my.palette <- brewer.pal(n = 8, name = "YlGn")
 
-#Plotting the NDVI graphs with the same program for different country parks
+#Function for plotting the NDVI graphs for different country parks
 ndvianalysis <- function(droneimage, countrypark){
   
   #Importing the near-infrared (NIR) band of the drone image of the country park
@@ -46,11 +47,12 @@ ndvianalysis <- function(droneimage, countrypark){
   
   setwd("..\\..\\Photos\\Cropped")
   
-  return(summary(ndvi)[3])
+  return(c(summary(ndvi)[3], 
+           cellStats(ndvi, stat = 'mean'),
+           cellStats(ndvi, stat = 'sd'),
+           summary(ndvi)[5] - summary(ndvi)[1]))
 }
 
-#Setting an empty vector for storing median NDVI values later
-medians = vector(mode = "numeric", length = 7)
 
 #Setting vectors for the park names and the file names to be used
 #for NDVI calculation
@@ -61,21 +63,41 @@ parknames = c("Aberdeen","Tai Tam", "Pok Fu Lam",
               "Sunset Peak")
 filenames = paste(parknames, ".jpg", sep = "")
 
+#Creating an empty dataframe
+df = data.frame()
 
-#Calculating the median NDVI values of different country parks
+#Calculating the median NDVI values of different country parks and storing it
+#in the dataframe
 for (x in 1:13){
-  medians[x] = ndvianalysis(filenames[x], parknames[x])
+    df = rbind(df, ndvianalysis(filenames[x], parknames[x]))
 }
 
-#Plotting the bar chart of the median NDVI value of different country parks
+#Adding a column for country park names
+df = cbind(df, names = parknames)
+
+#Renaming the columns
+colnames(df) = c("Median", "Mean", "Standard Deviation", "Range", "Name")
+
+#Plotting the bar chart for the median, mean, standard deviation,
+#range of ndvi of different country parks
 setwd("..\\..\\Bars and Graphs")
-jpeg("Medianplot.jpg", width = 960, height = 640, units = "px")
-par(mar = c(5, 8, 4, 2))
-bp = barplot(medians,
-             horiz = T,
-             las = 1, 
-             xlim = c(0,0.6),
-             names.arg = parknames,
-             main = 'medians')
-text(x = medians + 0.015, y = bp, labels = round(medians,3))
-dev.off()
+for (x in 1:4){
+  #Create jpeg file
+  jpeg(paste(colnames(df)[x],"Plot.jpg", sep = ""), width = 960, height = 640, units = "px")
+  #Setting the plot margins
+  par(mar = c(5, 8, 4, 4))
+  #Order the dataframe by median/mean/standard deviation/range of ndvi
+  df = df[order(df[x], decreasing = TRUE), ]
+  #Plotting the bar chart
+  bp = barplot(df[[colnames(df)[x]]],
+               horiz = T,
+               las = 1,
+               names.arg = df[[colnames(df)[5]]],
+               xlim = c(0, median(df[[colnames(df)[x]]]))*1.4,
+               main = colnames(df)[x])
+  #Labeling the value (3 significant figures) of each column
+  text(x = df[[colnames(df)[x]]] + median(df[[colnames(df)[x]]])*0.04,
+       y = bp,labels = signif(df[[colnames(df)[x]]],3))
+  #Close the file
+  dev.off()
+}
