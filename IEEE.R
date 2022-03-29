@@ -6,8 +6,7 @@ library(raster)
 library(rgdal)
 library(RColorBrewer)
 
-
-#Setting the color palette (Yellow-Green) for spplot
+#Setting the colour palette (Yellow-Green) for spplot
 my.palette <- brewer.pal(n = 8, name = "YlGn")
 
 #Function for plotting the NDVI graphs for different country parks
