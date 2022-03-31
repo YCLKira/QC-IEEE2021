@@ -1,6 +1,3 @@
-#Setting the working directory
-setwd(".\\Photos\\Cropped")
-
 #Import the required packages
 library(raster)
 library(rgdal)
@@ -10,42 +7,40 @@ library(RColorBrewer)
 my.palette <- brewer.pal(n = 8, name = "YlGn")
 
 #Function for plotting the NDVI graphs for different country parks
-ndvianalysis <- function(droneimage, countrypark){
+ndvianalysis <- function(aerialimage, countrypark){
   
-  #Importing the near-infrared (NIR) band of the drone image of the country park
-  NIR = raster(droneimage, band = 1)
+  #Setting the working directory for importing aerial images
+  setwd(".\\Photos\\Cropped")
   
-  #Importing the red (r) band of the drone image of country park
-  red = raster(droneimage, band = 2)
-  
-  #Calculating the NDVI value of each pixel in the drone image
+  #Importing the near-infrared (NIR) band of the aerial image of the country park
+  NIR = raster(aerialimage, band = 1)
+  #Importing the red (r) band of the aerial image of country park
+  red = raster(aerialimage, band = 2)
+  #Calculating the NDVI value of each pixel in the aerial image
   ndvi = (NIR-red)/(NIR+red)
-  
   #Filtering out the rock, sand and water
   ndvi[ndvi < 0.2] = NA
   
+  #Setting the file directory for exporting the graphs
   setwd(paste("..\\..\\Bars and Graphs\\", countrypark, sep = ""))
   
-  #Plotting the NDVI frequency graph
+  #NDVI Frequency plot
   jpeg(paste(countrypark, "Freq.jpg", sep = ""),
        width = 960, height = 640, units = "px")
   hist(ndvi, main= countrypark)
   dev.off()
-  
-  #Plotting the NDVI graphs
+  #NDVI plot
   jpeg(paste(countrypark, "NDVIplot.jpg", sep = ""),
        width = 960, height = 640, units = "px")
   plot(ndvi, main = countrypark, xlim = c(0,3301), ylim = c(0,2171))
   dev.off()
-  
-  #Plotting the NDVI graphs(spplot)
+  #NDVI Spatial Plot
   jpeg(paste(countrypark, "NDVISpplot.jpg", sep = ""),
        width = 960, height = 640, units = "px")
   print(spplot(ndvi, main = countrypark, col.regions = my.palette, cuts = 7))
   dev.off()
   
-  setwd("..\\..\\Photos\\Cropped")
-  
+  #Return the Median, Mean, Standard Deviation and range of NDVI values
   return(c(summary(ndvi)[3], 
            cellStats(ndvi, stat = 'mean'),
            cellStats(ndvi, stat = 'sd'),
@@ -73,19 +68,41 @@ for (x in 1:13){
 
 #Adding a column for country park names
 df = cbind(df, names = parknames)
+#Adding a column for population density (Source: 2021 Population Census)
+density = c(6779, 6779, 6779,
+            6779, 18808, 3771,
+            10082, 43730, 2269,
+            2325, 5908, 1021,
+            1021)
+df = cbind(df, populationdensity = density)
+
 
 #Renaming the columns
-colnames(df) = c("Median", "Mean", "Standard Deviation", "Range", "Name")
+colnames(df) = c("Median", "Mean", "Standard Deviation", "Range",
+                 "Name", "Population Density")
 
-#Plotting the bar chart for the median, mean, standard deviation,
-#range of ndvi of different country parks
-setwd("..\\..\\Bars and Graphs")
+#Scatterplots for Median/Mean/Standard Deviation/Range of NDVI values
+#against population density
+for (x in 1:4){
+  #Create jpeg file
+  jpeg(paste(colnames(df)[x],"ScatterPlot.jpg", sep = ""), width = 960, height = 640, units = "px")
+  #Scatterplot of Median/Mean/Standard Deviation NDVI against population
+  plot(df$`Population Density` , df[[colnames(df)[x]]],
+       pch = 16, col = "blue",
+       xlab = "Population Density", ylab = colnames(df)[x], cex = 1.3)
+  #Close the file
+  dev.off()
+}
+
+
+#Bar chart for the median, mean, standard deviation,
+#range of NDVI
 for (x in 1:4){
   #Create jpeg file
   jpeg(paste(colnames(df)[x],"Plot.jpg", sep = ""), width = 960, height = 640, units = "px")
   #Setting the plot margins
   par(mar = c(5, 8, 4, 4))
-  #Order the dataframe by median/mean/standard deviation/range of ndvi
+  #Order the data frame by median/mean/standard deviation/range of NDVI
   df = df[order(df[x], decreasing = TRUE), ]
   #Plotting the bar chart
   bp = barplot(df[[colnames(df)[x]]],
