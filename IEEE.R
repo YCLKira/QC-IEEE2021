@@ -40,6 +40,8 @@ ndvianalysis <- function(aerialimage, countrypark){
   print(spplot(ndvi, main = countrypark, col.regions = my.palette, cuts = 7))
   dev.off()
   
+  setwd("..\\..")
+  
   #Return the Median, Mean, Standard Deviation and range of NDVI values
   return(c(summary(ndvi)[3], 
            cellStats(ndvi, stat = 'mean'),
@@ -81,6 +83,9 @@ df = cbind(df, populationdensity = density)
 colnames(df) = c("Median", "Mean", "Standard Deviation", "Range",
                  "Name", "Population Density")
 
+#Setting the working directory for exporting the graphs
+setwd(".\\Bars and Graphs")
+
 #Scatterplots for Median/Mean/Standard Deviation/Range of NDVI values
 #against population density
 for (x in 1:4){
@@ -89,7 +94,8 @@ for (x in 1:4){
   #Scatterplot of Median/Mean/Standard Deviation NDVI against population
   plot(df$`Population Density` , df[[colnames(df)[x]]],
        pch = 16, col = "blue",
-       xlab = "Population Density", ylab = colnames(df)[x], cex = 1.3)
+       xlab = "Population Density", ylab = colnames(df)[x],
+       main = colnames(df)[x], cex = 1.3)
   #Close the file
   dev.off()
 }
