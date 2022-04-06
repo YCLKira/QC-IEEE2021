@@ -8,7 +8,7 @@ R: https://cran.r-project.org/
 RStudio: https://www.rstudio.com/products/rstudio/download/
 
 
-# How to use program:
+# How to use the programs:
 
 # Crop.R
 1. Load the program in RStudio
