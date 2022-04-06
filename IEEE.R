@@ -93,9 +93,14 @@ for (x in 1:4){
   jpeg(paste(colnames(df)[x],"ScatterPlot.jpg", sep = ""), width = 960, height = 640, units = "px")
   #Scatterplot of Median/Mean/Standard Deviation NDVI against population
   plot(df$`Population Density` , df[[colnames(df)[x]]],
-       pch = 16, col = "blue",
-       xlab = "Population Density", ylab = colnames(df)[x],
-       main = colnames(df)[x], cex = 1.3)
+       pch = 16,
+       col = "blue",
+       xlab = "Population Density",
+       ylim = c(0,max(df[[colnames(df)[x]]])),
+       ylab = colnames(df)[x],
+       main = paste(colnames(df)[x], "NDVI Against Population Density of its Respective District"),
+       cex = 1.3)
+  abline(v = 7000)
   #Close the file
   dev.off()
 }
